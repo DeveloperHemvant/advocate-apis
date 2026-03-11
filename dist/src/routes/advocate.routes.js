@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.advocateRouter = void 0;
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const client_1 = require("@prisma/client");
+const advocate_controller_1 = require("../controllers/advocate.controller");
+exports.advocateRouter = (0, express_1.Router)();
+exports.advocateRouter.get('/me', auth_1.requireAuth, (0, auth_1.requireRole)(client_1.Role.ADVOCATE, client_1.Role.ADMIN), advocate_controller_1.getMe);
+exports.advocateRouter.put('/me', auth_1.requireAuth, (0, auth_1.requireRole)(client_1.Role.ADVOCATE, client_1.Role.ADMIN), advocate_controller_1.updateMe);
