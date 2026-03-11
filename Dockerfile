@@ -21,5 +21,5 @@ ENV NODE_ENV=production
 ENV PORT=4000
 
 # On container start: run migrations then start API
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/src/index.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node dist/src/index.js"]
 

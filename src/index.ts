@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { authRouter } from './routes/auth.routes';
 import { advocateRouter } from './routes/advocate.routes';
 import { adminRouter } from './routes/admin.routes';
+import { aiRouter } from './routes/ai.routes';
 import { openApiSpec } from './docs/openapi';
 import { ensureDefaultAdmin } from './services/adminSeed';
 
@@ -32,6 +33,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 app.use('/api/auth', authRouter);
 app.use('/api/advocates', advocateRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/ai', aiRouter);
 
 app.use(errorHandler);
 
