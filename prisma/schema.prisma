@@ -79,3 +79,20 @@ model AuditLog {
   @@index([action])
 }
 
+model TrainingDraft {
+  id           String   @id @default(cuid())
+  userId       String?
+  documentType String   @map("document_type")
+  title        String?  @db.Text
+  facts        String?  @db.Text
+  draftText    String   @map("draft_text") @db.Text
+  courtType    String?  @map("court_type")
+  state        String?
+  approvedAt   DateTime @default(now()) @map("approved_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([documentType])
+}
+
