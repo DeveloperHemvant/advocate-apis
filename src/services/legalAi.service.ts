@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+type AnyJson = Record<string, unknown>;
 
 interface GenerateDraftPayload {
   document_type: string;
@@ -14,9 +14,9 @@ function getLegalAiBaseUrl(): string {
   return raw.replace(/\/$/, '');
 }
 
-export async function generateDraftViaLegalAi(payload: GenerateDraftPayload) {
+async function postJson<T>(path: string, payload: AnyJson): Promise<T> {
   const base = getLegalAiBaseUrl();
-  const url = `${base}/generate-draft`;
+  const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -27,6 +27,22 @@ export async function generateDraftViaLegalAi(payload: GenerateDraftPayload) {
     const msg = data?.detail || data?.error || 'Legal AI service error';
     throw new Error(msg);
   }
-  return data;
+  return data as T;
+}
+
+export async function generateDraftViaLegalAi(payload: GenerateDraftPayload) {
+  return postJson('/generate-draft', payload as AnyJson);
+}
+
+export async function generateReasoningViaLegalAi(payload: AnyJson) {
+  return postJson('/generate-reasoning', payload);
+}
+
+export async function generateArgumentsViaLegalAi(payload: AnyJson) {
+  return postJson('/generate-arguments', payload);
+}
+
+export async function generateCitationsViaLegalAi(payload: AnyJson) {
+  return postJson('/generate-citations', payload);
 }
 
